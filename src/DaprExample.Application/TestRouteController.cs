@@ -11,8 +11,15 @@ using Volo.Abp.AspNetCore.Mvc.Dapr;
 
 namespace DaprExample
 {
-    public class MyController : AbpController
+    public class TestRouteController : AbpController
     {
+        protected IDaprEventBus DaprEventBus { get; }
+
+        public MyController(IDaprEventBus daprEventBus)
+        {
+            DaprEventBus = daprEventBus;
+        }
+
         [HttpPost("/stock-changed")]
         [Topic("pubsub", "StockChanged")]
         public async Task<IActionResult> TestRouteAsync([FromBody] StockCountChangedEto model)
@@ -21,6 +28,13 @@ namespace DaprExample
             HttpContext.ValidateDaprAppApiToken();
 
             // Do something with the event
+            return Ok();
+        }
+
+        [HttpPost("/send")]
+        public async Task<IActionResult> DoItAsync()
+        {
+            await DaprEventBus.DoItAsync();
             return Ok();
         }
     }

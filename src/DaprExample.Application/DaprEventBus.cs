@@ -4,7 +4,7 @@ using Volo.Abp.DependencyInjection;
 
 namespace DaprExample
 {
-    public class DaprEventBus : ITransientDependency
+    public class DaprEventBus : IDaprEventBus, ITransientDependency
     {
         private readonly DaprClient _daprClient;
 

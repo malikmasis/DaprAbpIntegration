@@ -15,13 +15,7 @@ namespace DaprExample
 
         public async Task DoItAsync()
         {
-            await _daprClient.PublishEventAsync("pubsub", "newOrder", new Order { Id = 1, Amount = 100 });
+            await _daprClient.PublishEventAsync("pubsub", "newOrder", new OrderEto { Id = 1, Amount = 100 });
         }
-    }
-
-    public class Order
-    {
-        public int Id { get; set; }
-        public int Amount { get; set; }
     }
 }
