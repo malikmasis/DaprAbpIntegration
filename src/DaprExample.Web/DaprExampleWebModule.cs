@@ -37,6 +37,7 @@ using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
 using Volo.Abp.VirtualFileSystem;
+using Volo.Abp.Dapr;
 
 namespace DaprExample.Web;
 
@@ -51,7 +52,8 @@ namespace DaprExample.Web;
     typeof(AbpAspNetCoreMvcUiLeptonXLiteThemeModule),
     typeof(AbpTenantManagementWebModule),
     typeof(AbpAspNetCoreSerilogModule),
-    typeof(AbpSwashbuckleModule)
+    typeof(AbpSwashbuckleModule),
+    (typeof(AbpDaprModule))
     )]
 public class DaprExampleWebModule : AbpModule
 {
