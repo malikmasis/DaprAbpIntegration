@@ -2,7 +2,7 @@
 
 namespace DaprExample
 {
-    public interface IDaprEventBus
+    public interface IEventBusService
     {
         Task DoItAsync();
     }

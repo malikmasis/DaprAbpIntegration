@@ -4,7 +4,7 @@ using Volo.Abp.EventBus.Distributed;
 
 namespace DaprExample
 {
-    public class EventBusService : ITransientDependency
+    public class EventBusService : IEventBusService, ITransientDependency
     {
         private readonly IDistributedEventBus _distributedEventBus;
 

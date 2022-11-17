@@ -2,7 +2,6 @@
 using Volo.Abp.AspNetCore.Mvc.Dapr.EventBus;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.Dapr;
-using Volo.Abp.DistributedLocking.Dapr;
 using Volo.Abp.EventBus.Dapr;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
@@ -23,8 +22,7 @@ namespace DaprExample;
     typeof(AbpFeatureManagementApplicationModule),
     typeof(AbpSettingManagementApplicationModule),
     typeof(AbpDaprModule),
-    typeof(AbpAspNetCoreMvcDaprEventBusModule),
-    typeof(AbpDistributedLockingDaprModule)
+    typeof(AbpAspNetCoreMvcDaprEventBusModule)
     )]
 public class DaprExampleApplicationModule : AbpModule
 {
@@ -38,11 +36,6 @@ public class DaprExampleApplicationModule : AbpModule
         Configure<AbpDaprEventBusOptions>(options =>
         {
             options.PubSubName = "pubsub";
-        });
-
-        Configure<AbpDistributedLockDaprOptions>(options =>
-        {
-            options.StoreName = "mystore";
         });
     }
 }

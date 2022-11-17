@@ -13,9 +13,9 @@ namespace DaprExample
 {
     public class TestRouteController : AbpController
     {
-        protected IDaprEventBus DaprEventBus { get; }
+        protected IEventBusService DaprEventBus { get; }
 
-        public MyController(IDaprEventBus daprEventBus)
+        public TestRouteController(IEventBusService daprEventBus)
         {
             DaprEventBus = daprEventBus;
         }
