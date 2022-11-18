@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp;
+using Volo.Abp.EventBus.Distributed;
 
 namespace DaprExample.HttpApi.Client.ConsoleTestApp;
 
@@ -27,6 +28,7 @@ public class ConsoleTestAppHostedService : IHostedService
             await application.InitializeAsync();
 
             var demo = application.ServiceProvider.GetRequiredService<ClientDemoService>();
+            application.ServiceProvider.GetRequiredService<IDistributedEventBus>();
             await demo.RunAsync();
 
             await application.ShutdownAsync();

@@ -10,6 +10,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DaprExample.Domain\DaprExample.Domain.csproj" />
     <ProjectReference Include="..\DaprExample.Application.Contracts\DaprExample.Application.Contracts.csproj" />
+    <ProjectReference Include="..\Eto\Eto.csproj" />
   </ItemGroup>
 
   <ItemGroup>

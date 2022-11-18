@@ -1,43 +1,37 @@
-using System.IO;
+using DaprExample.EntityFrameworkCore;
+using DaprExample.Localization;
+using DaprExample.MultiTenancy;
+using DaprExample.Web.Menus;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using DaprExample.EntityFrameworkCore;
-using DaprExample.Localization;
-using DaprExample.MultiTenancy;
-using DaprExample.Web.Menus;
 using Microsoft.OpenApi.Models;
 using OpenIddict.Validation.AspNetCore;
+using System.IO;
 using Volo.Abp;
 using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.Localization;
-using Volo.Abp.AspNetCore.Mvc.UI;
-using Volo.Abp.AspNetCore.Mvc.UI.Bootstrap;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
-using Volo.Abp.AspNetCore.Mvc.UI.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
 using Volo.Abp.AutoMapper;
-using Volo.Abp.FeatureManagement;
+using Volo.Abp.Dapr;
+using Volo.Abp.EventBus.Dapr;
 using Volo.Abp.Identity.Web;
-using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
-using Volo.Abp.PermissionManagement.Web;
 using Volo.Abp.SettingManagement.Web;
 using Volo.Abp.Swashbuckle;
 using Volo.Abp.TenantManagement.Web;
-using Volo.Abp.UI.Navigation.Urls;
-using Volo.Abp.UI;
 using Volo.Abp.UI.Navigation;
+using Volo.Abp.UI.Navigation.Urls;
 using Volo.Abp.VirtualFileSystem;
-using Volo.Abp.Dapr;
 
 namespace DaprExample.Web;
 
@@ -95,6 +89,19 @@ public class DaprExampleWebModule : AbpModule
         ConfigureNavigationServices();
         ConfigureAutoApiControllers();
         ConfigureSwaggerServices(context.Services);
+
+        context.Services.AddEndpointsApiExplorer();
+
+        Configure<AbpDaprOptions>(options =>
+        {
+            options.HttpEndpoint = "http://localhost:7002";
+            options.GrpcEndpoint = "http://localhost:7003";
+        });
+
+        Configure<AbpDaprEventBusOptions>(options =>
+        {
+            options.PubSubName = "test-pubsub";
+        });
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -212,6 +219,7 @@ public class DaprExampleWebModule : AbpModule
         });
         app.UseAuditing();
         app.UseAbpSerilogEnrichers();
+        app.UseCloudEvents();//TODO don't forget
         app.UseConfiguredEndpoints();
     }
 }

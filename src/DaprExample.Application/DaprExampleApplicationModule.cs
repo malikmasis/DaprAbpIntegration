@@ -32,10 +32,5 @@ public class DaprExampleApplicationModule : AbpModule
         {
             options.AddMaps<DaprExampleApplicationModule>();
         });
-
-        Configure<AbpDaprEventBusOptions>(options =>
-        {
-            options.PubSubName = "pubsub";
-        });
     }
 }

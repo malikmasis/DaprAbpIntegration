@@ -1,4 +1,5 @@
 ﻿using Dapr;
+using Eto;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -21,7 +22,7 @@ namespace DaprExample
         }
 
         [HttpPost("/stock-changed")]
-        [Topic("pubsub", "StockChanged")]
+        [Topic("test-pubsub", "StockChanged")]
         public async Task<IActionResult> TestRouteAsync([FromBody] StockCountChangedEto model)
         {
             // Validate the App API token!

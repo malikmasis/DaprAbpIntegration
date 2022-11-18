@@ -1,25 +1,37 @@
-﻿using System;
+﻿using Eto;
+using System;
 using System.Threading.Tasks;
-using Volo.Abp.Account;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.EventBus.Distributed;
 
 namespace DaprExample.HttpApi.Client.ConsoleTestApp;
 
 public class ClientDemoService : ITransientDependency
 {
-    private readonly IProfileAppService _profileAppService;
+    private readonly IDistributedEventBus _eventBus;
 
-    public ClientDemoService(IProfileAppService profileAppService)
+    public ClientDemoService(IDistributedEventBus eventBus)
     {
-        _profileAppService = profileAppService;
+        _eventBus = eventBus;
     }
 
     public async Task RunAsync()
     {
-        var output = await _profileAppService.GetAsync();
-        Console.WriteLine($"UserName : {output.UserName}");
-        Console.WriteLine($"Email    : {output.Email}");
-        Console.WriteLine($"Name     : {output.Name}");
-        Console.WriteLine($"Surname  : {output.Surname}");
+        Console.WriteLine("Publishing events");
+        for (var i = 0; i < 10; i++)
+        {
+            await _eventBus.PublishAsync(
+                new StockCountChangedEto
+                {
+                    ProductCode = $"Product {i}",
+                    NewStockCount = i
+                }
+
+            );
+
+            Console.WriteLine($"{i} Event publishing complete!");
+
+            await Task.Delay(2500);
+        }
     }
 }
